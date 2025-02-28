@@ -1,4 +1,9 @@
 import Client from './company.model.js';
+import User from '../admin/admin.model.js'
+import ExcelJS from 'exceljs';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 /*Este register solo lo puede hacer el administrador*/
 export const register = async (req, res) => {
@@ -69,5 +74,121 @@ export const viewCompany = async (req, res) => {
             success: false,
             message: 'Error when listing',error
         });
+    }
+}
+
+export const viewCompanyById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const company = await Client.findById(id)
+        if (!company) {
+            return res.status(404).send({
+                success: false,
+                message: 'Company not found',
+            });
+        }
+        return res.status(200).send({
+            success: true,
+            message: 'Company', company
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Error when listing',
+            error
+        });
+    }
+}
+
+export const updateCompany = async (req, res) => {
+    try {
+        let id = req.params.id
+        let data = req.body;
+        let company = await Client.findByIdAndUpdate(id, data, { new: true });
+        if (!company) {
+            return res.status(404).send({
+                success: false,
+                message: 'Company not found',
+            });
+        }
+        return res.status(200).send({
+            success: true,
+            message: 'Company updated',
+            company
+        })
+        
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Error when update',
+            error
+        });
+    }
+}
+
+export const generateExcel = async (req, res) => {
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+    try {
+        const user = await User.findById({
+            _id: req.user.uid
+        })
+        if(!user) return res.status(403).send({
+            success: false,
+            message: 'You are not authorized to perform this action',
+        })
+        const company = await Client.find().populate({
+            path: 'admin',
+            select: 'name email role'
+        })
+        const workbook = new ExcelJS.Workbook();
+        workbook.creator = 'COPEREX'
+        workbook.created = new Date()
+        const sheet = workbook.addWorksheet('Registered companies');
+
+        sheet.columns = [
+            { header: 'Company Name', key: 'name', width: 20 },
+            { header: 'Impact', key: 'impact', width: 20 },
+            { header: 'Admin', key: 'admin', width: 50 },
+            { header: 'Level', key: 'level', width: 50 },
+            { header: 'Years', key: 'year', width: 50 },
+            { header: 'Category', key: 'category', width: 50 },
+        ]
+
+        sheet.getRow(1).font = {
+            name: 'Arial',
+            bold: true,
+            size: 14
+        }
+
+        sheet.getRow(1).alignment = {vertical: 'middle', horizontal: 'center'}
+        sheet.getRow(1).fill = {type: 'pattern', pattern: 'solid', fgColor: {argb: 'FFC080'}}
+        company.forEach(company => {
+            sheet.addRow({
+                name: company.name,
+                impact: company.impact,
+                admin: company.admin ? `${company.name}` : 'Desconocido',
+                level: company.level,
+                year: company.year,
+                category: company.category
+            })
+        })
+        const filePath = path.join(__dirname, '../excels', `Report_Company_${Date.now()}.xlsx`)
+        await fs.mkdir(path.dirname(filePath), { recursive: true })
+        await workbook.xlsx.writeFile(filePath)
+        console.log(`Save file to ${filePath}`)
+        res.setHeader('Conetent-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        res.setHeader('Conetent-Disposition', 'attachment; filename=Report_Company.xlsx')
+        const buffer = await workbook.xlsx.writeBuffer()
+        res.send(buffer)
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error',
+            error
+        })
     }
 }

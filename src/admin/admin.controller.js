@@ -2,21 +2,6 @@ import User from './admin.model.js'
 import { checkPassword, encrypt } from '../../utils/encrypt.js'
 import { generateJwt } from '../../utils/jwt.js'
 
-/*Este register solo lo puedo autorizar el administrador*/
-export const register = async (req, res) => {
-    try {
-       let data = req.body
-       let user = new User(data)
-       user.password = await encrypt(data.password)
-       await user.save()
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send({
-            success: false,
-            message: 'Error registering',error
-        });
-    }
-}
 
 export const login = async (req, res) => {
     try {

@@ -26,6 +26,11 @@ const clientSchema = new Schema({
     category:{
         type: String,
         required: [true, "Category is required"],
+    },
+    admin:{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, "User is required"],
     }
 })
 

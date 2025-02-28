@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "b0f355fa-c6a3-4606-86aa-b3c3db02ee77",
+		"name": "COPEREX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37956978"
+	},
+	"item": [
+		{
+			"name": "Login(ADMIN)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"token\", data.token)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userLoggin",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Admin123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3605/v1/admin/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3605",
+					"path": [
+						"v1",
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar cliente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Tech Soliblate",
+							"type": "text"
+						},
+						{
+							"key": "impact",
+							"value": "HIGH",
+							"type": "text"
+						},
+						{
+							"key": "level",
+							"value": "LOCAL",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Company private",
+							"type": "text"
+						},
+						{
+							"key": "year",
+							"value": "2010",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3605/v1/company/addCompany",
+					"host": [
+						"localhost"
+					],
+					"port": "3605",
+					"path": [
+						"v1",
+						"company",
+						"addCompany"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar cliente Copy",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Hola",
+							"type": "text"
+						},
+						{
+							"key": "impact",
+							"value": "HIGH",
+							"type": "text"
+						},
+						{
+							"key": "level",
+							"value": "LOCAL",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Company",
+							"type": "text"
+						},
+						{
+							"key": "year",
+							"value": "10",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3605/v1/company/updateCompany/67c0f3797cf133d8f0f72359",
+					"host": [
+						"localhost"
+					],
+					"port": "3605",
+					"path": [
+						"v1",
+						"company",
+						"updateCompany",
+						"67c0f3797cf133d8f0f72359"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar empresas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "DataLogin",
+							"type": "text"
+						},
+						{
+							"key": "impact",
+							"value": "LOW",
+							"type": "text"
+						},
+						{
+							"key": "level",
+							"value": "LOCAL",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Company private",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3605/v1/company/viewCompany",
+					"host": [
+						"localhost"
+					],
+					"port": "3605",
+					"path": [
+						"v1",
+						"company",
+						"viewCompany"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar empresas ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "DataLogin",
+							"type": "text"
+						},
+						{
+							"key": "impact",
+							"value": "LOW",
+							"type": "text"
+						},
+						{
+							"key": "level",
+							"value": "LOCAL",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Company private",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3605/v1/company/viewCompany/67c0f3797cf133d8f0f72359",
+					"host": [
+						"localhost"
+					],
+					"port": "3605",
+					"path": [
+						"v1",
+						"company",
+						"viewCompany",
+						"67c0f3797cf133d8f0f72359"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excel",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "DataLogin",
+							"type": "text"
+						},
+						{
+							"key": "impact",
+							"value": "LOW",
+							"type": "text"
+						},
+						{
+							"key": "level",
+							"value": "LOCAL",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Company private",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3605/v1/company/exceljs",
+					"host": [
+						"localhost"
+					],
+					"port": "3605",
+					"path": [
+						"v1",
+						"company",
+						"exceljs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
