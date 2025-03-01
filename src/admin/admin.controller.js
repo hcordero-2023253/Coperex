@@ -46,6 +46,11 @@ export const createAdminDefault = async () => {
     try {
         let adminExist = await User.findOne({name: process.env.NAME})
 
+        if(adminExist){
+            return console.log("Admin already exist");
+            
+        }
+
         if(!adminExist){
             let admin = new User({
                 name: process.env.NAME,
@@ -57,6 +62,7 @@ export const createAdminDefault = async () => {
             admin.password = await encrypt(admin.password);
             await admin.save();
         }
+        console.log("Admin created")
     } catch (error) {
         console.error(error);
         

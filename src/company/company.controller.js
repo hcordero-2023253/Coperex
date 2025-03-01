@@ -63,13 +63,9 @@ export const viewCompany = async (req, res) => {
             });
         }
         query.year = numericYear;
-
-        if(category){
-            query.category = category
-        }
-
         const companiesCount = await Client.countDocuments(query);
         
+        let companies = await Client.find(query).sort(sort).skip(skip).limit(limit)
         if (companiesCount === 0) {
             return res.status(404).send({
                 success: false,
@@ -77,7 +73,11 @@ export const viewCompany = async (req, res) => {
             });
         }
 
-        let companies = await Client.find(query).sort(sort).skip(skip).limit(limit)
+        if(category){
+            query.category = category
+        }
+
+
 
         if(sort){
             if(sort === 'A-Z'){
