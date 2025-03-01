@@ -30,7 +30,6 @@ const clientSchema = new Schema({
     admin:{
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, "User is required"],
     }
 })
 

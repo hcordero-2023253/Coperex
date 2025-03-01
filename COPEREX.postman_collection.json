@@ -70,7 +70,7 @@
 					"urlencoded": [
 						{
 							"key": "name",
-							"value": "Tech Soliblate",
+							"value": "DataLogic",
 							"type": "text"
 						},
 						{
@@ -183,31 +183,10 @@
 				],
 				"body": {
 					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "name",
-							"value": "DataLogin",
-							"type": "text"
-						},
-						{
-							"key": "impact",
-							"value": "LOW",
-							"type": "text"
-						},
-						{
-							"key": "level",
-							"value": "LOCAL",
-							"type": "text"
-						},
-						{
-							"key": "category",
-							"value": "Company private",
-							"type": "text"
-						}
-					]
+					"urlencoded": []
 				},
 				"url": {
-					"raw": "localhost:3605/v1/company/viewCompany",
+					"raw": "localhost:3605/v1/company/viewCompany?limit=0&skip=0&year=2009",
 					"host": [
 						"localhost"
 					],
@@ -216,6 +195,35 @@
 						"v1",
 						"company",
 						"viewCompany"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "0"
+						},
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "year",
+							"value": "2009"
+						},
+						{
+							"key": "category",
+							"value": "Company private",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "A-Z",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "Z-A",
+							"disabled": true
+						}
 					]
 				}
 			},

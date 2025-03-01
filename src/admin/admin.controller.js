@@ -50,7 +50,7 @@ export const createAdminDefault = async () => {
             let admin = new User({
                 name: process.env.NAME,
                 email: process.env.EMAIL,
-                username: process.env.USERNAME,
+                username: process.env.DB_USERNAME,
                 password: process.env.PASSWORD,
                 role: process.env.ROLE
             })

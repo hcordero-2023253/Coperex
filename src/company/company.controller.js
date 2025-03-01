@@ -48,8 +48,33 @@ export const viewCompany = async (req, res) => {
             query.year = year
         }
 
+        if(!year){
+            return res.status(400).send({
+                success: false,
+                message: 'Year dont not valid',
+            });
+        }
+
+        const numericYear = Number(year)
+        if(isNaN(numericYear) || !Number.isInteger(numericYear)){
+            return res.status(400).send({
+                success: false,
+                message: 'Year must be a valid integer',
+            });
+        }
+        query.year = numericYear;
+
         if(category){
             query.category = category
+        }
+
+        const companiesCount = await Client.countDocuments(query);
+        
+        if (companiesCount === 0) {
+            return res.status(404).send({
+                success: false,
+                message: `No companies found for year ${numericYear}`,
+            });
         }
 
         let companies = await Client.find(query).sort(sort).skip(skip).limit(limit)
